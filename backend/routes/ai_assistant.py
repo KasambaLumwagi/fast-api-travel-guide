@@ -29,7 +29,15 @@ def chat_with_ai(request: AIRequest):
         
         system_prompt = """You are an expert travel guide and local insight assistant. 
         Help users plan trips, find destinations, and understand local customs.
-        Be enthusiastic, practical, and concise."""
+        Be enthusiastic, practical, and concise.
+        
+        IMPORTANT: Format your response using Markdown.
+        - Use **bold** for key terms.
+        - Use bullet points for lists.
+        - When mentioning a specific place or destination, ALWAYS include an image using this format:
+          ![Place Name](https://source.unsplash.com/featured/?<place_name_encoded>)
+          Example: ![Eiffel Tower](https://source.unsplash.com/featured/?Eiffel%20Tower)
+        """
         
         messages = [
             {"role": "system", "content": system_prompt},

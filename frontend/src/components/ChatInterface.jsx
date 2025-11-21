@@ -2,6 +2,8 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Send, Bot, User, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import axios from 'axios';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 const ChatInterface = () => {
     const [messages, setMessages] = useState([
@@ -92,9 +94,22 @@ const ChatInterface = () => {
                                 borderRadius: '16px',
                                 borderTopLeftRadius: msg.role === 'assistant' ? '4px' : '16px',
                                 borderTopRightRadius: msg.role === 'user' ? '4px' : '16px',
-                                lineHeight: '1.5'
+                                lineHeight: '1.5',
+                                overflowWrap: 'break-word'
                             }}>
-                                {msg.content}
+                                <ReactMarkdown
+                                    remarkPlugins={[remarkGfm]}
+                                    components={{
+                                        img: ({ node, ...props }) => (
+                                            <img {...props} style={{ maxWidth: '100%', borderRadius: '8px', marginTop: '10px' }} alt="Travel destination" />
+                                        ),
+                                        p: ({ node, ...props }) => <p style={{ margin: 0, marginBottom: '0.5em' }} {...props} />,
+                                        ul: ({ node, ...props }) => <ul style={{ margin: 0, paddingLeft: '20px' }} {...props} />,
+                                        li: ({ node, ...props }) => <li style={{ marginBottom: '4px' }} {...props} />
+                                    }}
+                                >
+                                    {msg.content}
+                                </ReactMarkdown>
                             </div>
 
                             {msg.role === 'user' && (
